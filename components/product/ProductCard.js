@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
 import Link from 'next/link';
 
-function ProductCard({ productObj }) {
+// eslint-disable-next-line no-unused-vars
+function ProductCard({ productObj, onUpdate }) {
   return (
     <Card className="text-center post-card">
       <Card.Header>{productObj.name}</Card.Header>
@@ -35,7 +36,7 @@ ProductCard.propTypes = {
       label: PropTypes.string,
     }),
   }).isRequired,
-  // onUpdate: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default ProductCard;
