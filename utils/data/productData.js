@@ -73,5 +73,5 @@ const getProductsBySellerId = (id) => new Promise((resolve, reject) => {
 });
 
 export {
-  getProducts, getSingleProduct, createProduct, updateProduct, deleteProduct, getProductsBySellerId
+  getProducts, getSingleProduct, createProduct, updateProduct, deleteProduct, getProductsBySellerId,
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
@@ -8,7 +9,9 @@ function ProductCard({ productObj, onUpdate }) {
   return (
     <Card className="text-center post-card">
       <Card.Header>{productObj.name}</Card.Header>
-      <Card.Body />
+      <Card.Body>
+        <img src={productObj.product_image_url} alt="product" />
+      </Card.Body>
       <Card.Footer className="text-muted">Seller: {productObj.seller_id.username}</Card.Footer>
       <div>
         <Link href={`/products/${productObj.id}`} passHref>
@@ -23,7 +26,6 @@ ProductCard.propTypes = {
   productObj: PropTypes.shape({
     id: PropTypes.number,
     seller_id: PropTypes.shape({
-      id: PropTypes.number,
       username: PropTypes.string,
     }),
     name: PropTypes.string,
