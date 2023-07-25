@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Button } from 'react-bootstrap';
+import { Button, Link } from 'react-bootstrap';
 import { getSingleProduct } from '../../utils/data/productData';
 
 export default function ViewProduct() {
@@ -29,11 +29,13 @@ export default function ViewProduct() {
         </div>
         <br />
         <div>
-          <h2>Sold by: {productDetails.seller_id?.username}</h2>
+          <Link passHref href={`$/products?seller_id=${productDetails.seller_id}`}>
+            <h2>Sold by: {productDetails.seller_id?.username}</h2>
+          </Link>
           <h4>Quantity Available: {productDetails.quantity}</h4>
           <h3>Price per unit: {productDetails.price}</h3>
         </div>
-        <Button>
+        <Button variant="primary" onClick={router.push('/cart')}>
           Add to Cart
         </Button>
       </div>
