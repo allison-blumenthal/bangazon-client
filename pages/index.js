@@ -46,7 +46,6 @@ function Home() {
             </section>
           ))}
       </div>
-      <div />
     </>
   );
 }

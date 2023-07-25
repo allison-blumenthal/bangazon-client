@@ -7,10 +7,10 @@ import Link from 'next/link';
 // eslint-disable-next-line no-unused-vars
 function ProductCard({ productObj, onUpdate }) {
   return (
-    <Card className="text-center post-card">
+    <Card className="text-center product-card" style={{ width: '18rem', margin: '10px' }}>
       <Card.Header>{productObj.name}</Card.Header>
       <Card.Body>
-        <img src={productObj.product_image_url} alt="product" />
+        <Card.Img src={productObj.product_image_url} alt="product" />
       </Card.Body>
       <Card.Footer className="text-muted">Seller: {productObj.seller_id.username}</Card.Footer>
       <div>
