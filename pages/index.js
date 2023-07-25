@@ -7,13 +7,20 @@ import { getProducts } from '../utils/data/productData';
 function Home() {
   const { user } = useAuth();
   const [products, setProducts] = useState([]);
+  const [sortedProducts, setSortedProducts] = useState([]);
 
-  const getAllProducts = () => {
-    getProducts().then((data) => setProducts(data));
+  const getRecentProducts = () => {
+    getProducts().then((productArr) => {
+      setProducts(productArr.slice(-20));
+      if (products) {
+        const sorted = [...products].sort((a, b) => b.timestamp - a.timestamp);
+        setSortedProducts(sorted);
+      }
+    });
   };
 
   useEffect(() => {
-    getAllProducts();
+    getRecentProducts();
   }, []);
 
   return (
@@ -30,14 +37,15 @@ function Home() {
         <h1>Welcome to Bangazon, {user.username}! </h1>
         <img src={user.profile_image_url} alt="user profile" />
       </div>
-      <article className="products">
-        {products.map((product) => (
-          <section key={`product--${product.id}`} className="products">
-            <ProductCard productObj={product} onUpdate={getAllProducts} />
-          </section>
-        ))}
-      </article>
-      <div />
+      <div className="product-cards-container">
+        {sortedProducts
+          .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+          .map((product) => (
+            <section key={`product--${product.id}`} className="products">
+              <ProductCard productObj={product} onUpdate={getRecentProducts} />
+            </section>
+          ))}
+      </div>
     </>
   );
 }
