@@ -12,9 +12,18 @@ export default function ViewProduct() {
 
   const { id } = router.query;
 
+  const getProductDetails = async () => {
+    try {
+      const details = await getSingleProduct(id);
+      setProductDetails(details);
+    } catch (error) {
+      console.error('Error fetching product details: ', error);
+    }
+  };
+
   useEffect(() => {
-    getSingleProduct(id).then((product) => setProductDetails(product));
-  }, [id]);
+    getProductDetails();
+  }, []);
 
   const handleClick = () => {
     router.push('/cart');
@@ -34,7 +43,7 @@ export default function ViewProduct() {
         </div>
         <br />
         <div>
-          <Link passHref href={`/products?seller_id=${productDetails.seller_id.id}`}>
+          <Link passHref href={`/products?seller_id=${productDetails.seller_id}`}>
             <h2>Sold by: {productDetails.seller_id?.username}</h2>
           </Link>
           <h4>Quantity Available: {productDetails.quantity}</h4>
