@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
@@ -43,7 +44,7 @@ export default function ViewProduct() {
         </div>
         <br />
         <div>
-          <Link passHref href={`/products?seller_id=${productDetails.seller_id}`}>
+          <Link passHref href={`/products?seller_id=${productDetails.seller_id?.id}`}>
             <h2>Sold by: {productDetails.seller_id?.username}</h2>
           </Link>
           <h4>Quantity Available: {productDetails.quantity}</h4>
