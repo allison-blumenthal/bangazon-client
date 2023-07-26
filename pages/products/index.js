@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
@@ -9,25 +11,29 @@ export default function SellerStore() {
   const [sellerProducts, setSellerProducts] = useState([]);
   const router = useRouter();
 
-  const { id } = router.query;
+  const { seller_id } = router.query;
 
   const getAllSellerProducts = () => {
-    getProductsBySellerId(id).then((products) => setSellerProducts(products));
+    getProductsBySellerId(seller_id).then((products) => setSellerProducts(products));
   };
+
+  // const getSellerDetails = () => {
+
+  // }
 
   useEffect(() => {
     getAllSellerProducts();
-  }, [id]);
+  }, [seller_id]);
 
   return (
     <>
       <div className="seller-store-page" />
       <Head>
-        <title>{id.username}&apos;s Store</title>
+        <title>{seller_id.username}&apos;s Store</title>
       </Head>
       <div className="text-center d-flex flex-column justify-content-center align-content-center">
         <br />
-        <h1>Welcome to {id.username}&apos;s Store</h1>
+        <h1>Welcome to {seller_id.username}&apos;s Store</h1>
       </div>
       <div className="product-cards-container">
         {sellerProducts.map((product) => (
