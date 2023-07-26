@@ -15,6 +15,10 @@ export default function ViewProduct() {
     getSingleProduct(id).then(setProductDetails);
   }, [id]);
 
+  const handleClick = () => {
+    router.push('/cart');
+  };
+
   return (
     <>
       <Head>
@@ -35,7 +39,7 @@ export default function ViewProduct() {
           <h4>Quantity Available: {productDetails.quantity}</h4>
           <h3>Price per unit: {productDetails.price}</h3>
         </div>
-        <Button variant="primary" onClick={router.push('/cart')}>
+        <Button variant="primary" onClick={handleClick}>
           Add to Cart
         </Button>
       </div>
