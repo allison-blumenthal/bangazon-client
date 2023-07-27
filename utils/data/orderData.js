@@ -60,8 +60,20 @@ const deleteOrder = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getOrdersBySellerId = (id) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/orders?customer_id=${id}`, {
+const getClosedOrdersByUserId = (id) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/orders?customer_id=${id}&is_completed=true`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then(resolve)
+    .catch(reject);
+});
+
+const getOpenOrderByUserId = (id) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/orders?customer_id=${id}&is_completed=false`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -73,5 +85,5 @@ const getOrdersBySellerId = (id) => new Promise((resolve, reject) => {
 });
 
 export {
-  getOrders, getSingleOrder, createOrder, updateOrder, deleteOrder, getOrdersBySellerId,
+  getOrders, getSingleOrder, createOrder, updateOrder, deleteOrder, getClosedOrdersByUserId, getOpenOrderByUserId,
 };
