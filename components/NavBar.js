@@ -26,7 +26,7 @@ export default function NavBar() {
             <Link passHref href={`/profile/${user.id}`}>
               <Nav.Link>My Profile</Nav.Link>
             </Link>
-            <Link passHref href={`/orders?customer_id=${user.id}`}>
+            <Link passHref href="/orders">
               <Nav.Link>My Order History</Nav.Link>
             </Link>
             <Link passHref href="/categories">

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable camelcase */
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
@@ -21,8 +22,6 @@ export default function SellerStore() {
   const getSellerDetails = () => {
     getSingleUser(seller_id).then(setSellerDetails);
   };
-
-  console.warn(sellerDetails);
 
   useEffect(() => {
     getAllSellerProducts();
