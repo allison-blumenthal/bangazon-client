@@ -2,19 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import OrderCard from '../../components/order/OrderCard';
-import { getOrdersBySellerId } from '../../utils/data/orderData';
+import { getClosedOrdersByUserId } from '../../utils/data/orderData';
 import { useAuth } from '../../utils/context/authContext';
 
 export default function OrderHistory() {
   const [userOrders, setUserOrders] = useState([]);
   const { user } = useAuth();
 
-  const getAllUserOrders = () => {
-    getOrdersBySellerId(user.id).then((orders) => setUserOrders(orders));
+  const getCompletedUserOrders = () => {
+    getClosedOrdersByUserId(user.id).then((orders) => setUserOrders(orders));
   };
 
   useEffect(() => {
-    getAllUserOrders();
+    getCompletedUserOrders();
   }, []);
 
   return (
@@ -30,7 +30,7 @@ export default function OrderHistory() {
       <div className="order-cards-container">
         {userOrders.map((order) => (
           <section key={`order--${order.id}`} className="user-orders">
-            <OrderCard orderObj={order} onUpdate={getAllUserOrders} />
+            <OrderCard orderObj={order} onUpdate={getCompletedUserOrders} />
           </section>
         ))}
       </div>
