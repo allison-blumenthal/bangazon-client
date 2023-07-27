@@ -17,8 +17,13 @@ export default function ViewOrder() {
     getSingleOrder(id).then(setOrderDetails);
   };
 
-  const getOrderProducts = () => {
-    getOrderProductsByOrderId(id).then((products) => setOrderProducts(products));
+  const getOrderProducts = async () => {
+    try {
+      const products = await getOrderProductsByOrderId(id);
+      setOrderProducts(products);
+    } catch (error) {
+      console.error('Error fetching orderProduct details: ', error);
+    }
   };
 
   useEffect(() => {
@@ -34,15 +39,18 @@ export default function ViewOrder() {
       </Head>
       <div className="text-center d-flex flex-column justify-content-center align-content-center">
         <br />
-        <h1>Order #:{orderDetails.id} from {orderDetails.date_placed}</h1>
+        <h2>Order placed on: {orderDetails.date_placed}</h2>
+        <h1>Order items:</h1>
       </div>
       <div className="product-cards-container">
         {orderProducts.map((orderProduct) => (
           <section key={`orderProduct--${orderProduct.id}`} className="order-products">
-            <OrderProductCard orderProdcutObj={orderProduct} onUpdate={getOrderProducts} />
+            <OrderProductCard orderProductObj={orderProduct} onUpdate={getOrderProducts} />
           </section>
         ))}
       </div>
+      <br />
+      <h1>Order total: ${orderDetails.total}</h1>
     </>
   );
 }
