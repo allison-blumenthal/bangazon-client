@@ -30,7 +30,7 @@ ProductCard.propTypes = {
     }),
     name: PropTypes.string,
     description: PropTypes.string,
-    price: PropTypes.number,
+    price: PropTypes.string,
     quantity: PropTypes.number,
     product_image_url: PropTypes.string,
     added_on: PropTypes.string,

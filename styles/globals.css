@@ -67,9 +67,9 @@ body {
 }
 
 .pd-seller {
-  color: blue;
+  color: lightskyblue;
 }
 
 .pd-seller:hover {
-  color: blueviolet;
+  color: green;
 }
