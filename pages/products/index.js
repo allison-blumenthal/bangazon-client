@@ -22,8 +22,6 @@ export default function SellerStore() {
     getSingleUser(seller_id).then(setSellerDetails);
   };
 
-  console.warn(sellerDetails);
-
   useEffect(() => {
     getAllSellerProducts();
     getSellerDetails();
