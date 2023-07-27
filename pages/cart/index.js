@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useAuth } from '../../utils/context/authContext';
@@ -7,11 +8,16 @@ import CartItemCard from '../../components/cart/CartItemCard';
 
 export default function ViewCart() {
   const [openOrder, setOpenOrder] = useState({});
-  const [cartProducts, setCartProducts] = useState({});
+  const [cartProducts, setCartProducts] = useState([]);
   const { user } = useAuth();
 
-  const getOpenOrder = () => {
-    getOpenOrderByUserId(user.id).then(setOpenOrder);
+  const getOpenOrder = async () => {
+    try {
+      const order = await getOpenOrderByUserId(user.id);
+      setOpenOrder(order);
+    } catch (error) {
+      console.error('Error fetching open order: ', error);
+    }
   };
 
   const getCartProducts = async () => {
@@ -25,8 +31,11 @@ export default function ViewCart() {
 
   useEffect(() => {
     getOpenOrder();
+  }, [user.id]);
+
+  useEffect(() => {
     getCartProducts();
-  }, []);
+  }, [openOrder]);
 
   return (
     <>

@@ -80,7 +80,15 @@ const getOpenOrderByUserId = (id) => new Promise((resolve, reject) => {
     },
   })
     .then((response) => response.json())
-    .then(resolve)
+    .then((data) => {
+      // if the api returns an array with the single object inside
+      // extract the first object from the array and resolve it
+      if (Array.isArray(data) && data.length > 0) {
+        resolve(data[0]);
+      } else {
+        resolve({});
+      }
+    })
     .catch(reject);
 });
 

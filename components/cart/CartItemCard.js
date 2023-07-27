@@ -32,7 +32,7 @@ CartItemCard.propTypes = {
     product_id: PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
-      price: PropTypes.number,
+      price: PropTypes.string,
       product_image_url: PropTypes.string,
     }),
   }).isRequired,
