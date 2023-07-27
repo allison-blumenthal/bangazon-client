@@ -37,6 +37,8 @@ export default function ViewCart() {
     getCartProducts();
   }, [openOrder]);
 
+  const total = cartProducts.reduce((accumulator, object) => accumulator + parseFloat(object.product_id.price), 0);
+
   return (
     <>
       <div className="cart-page" />
@@ -55,7 +57,7 @@ export default function ViewCart() {
         ))}
       </div>
       <br />
-      <h1>Order total: $(tbd)</h1>
+      <h1>Order total: ${total}</h1>
     </>
   );
 }
