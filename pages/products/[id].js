@@ -27,7 +27,7 @@ export default function ViewProduct() {
   }, []);
 
   const handleClick = () => {
-    router.push('/cart');
+    router.push('/orderproducts');
   };
 
   return (
