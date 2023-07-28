@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import OrderProductForm from '../../components/orderProduct/OrderProductForm';
-import { getSingleProduct } from '../../utils/data/productData';
+import OrderProductForm from '../../../components/orderProduct/OrderProductForm';
+import { getSingleProduct } from '../../../utils/data/productData';
 
 const NewOrderProduct = () => {
   const router = useRouter();
@@ -21,6 +21,7 @@ const NewOrderProduct = () => {
 
   useEffect(() => {
     getProductDetails();
+    // console.warn('product details', productDetails);
   }, []);
 
   return (

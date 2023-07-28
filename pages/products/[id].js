@@ -27,7 +27,7 @@ export default function ViewProduct() {
   }, []);
 
   const handleClick = () => {
-    router.push('/orderproducts');
+    router.push(`/orderproducts/new/${id}`);
   };
 
   return (

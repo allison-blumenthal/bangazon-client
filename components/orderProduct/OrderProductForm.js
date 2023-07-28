@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useAuth } from '../../utils/context/authContext';
 import { createOrderProduct, updateOrderProduct } from '../../utils/data/orderProductData';
 import { getOpenOrderByUserId } from '../../utils/data/orderData';
@@ -45,13 +45,9 @@ function OrderProductForm({ orderProductObj, productObj }) {
     }
   }, [orderProductObj]);
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setCurrentOrderProduct((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
+  const pushToCart = () => {
+    router.push('/cart');
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,20 +61,23 @@ function OrderProductForm({ orderProductObj, productObj }) {
         productId: Number(currentOrderProduct.productId),
         quantity: (Qty += 1),
       };
-      updateOrderProduct(updatedOrderProduct).then(() => router.push('/cart'));
+      updateOrderProduct(updatedOrderProduct).then(pushToCart);
     } else {
       const orderProduct = {
         orderId: Number(openOrder.id),
         productId: Number(productObj.id),
         quantity: 1,
       };
-      createOrderProduct(orderProduct).then(() => router.push('/cart'));
+      createOrderProduct(orderProduct).then(pushToCart);
     }
   };
 
   return (
     <>
-      <Form onSubmit={handleSubmit} />
+      <Form onSubmit={handleSubmit}>
+        <Button variant="primary" type="submit">Add to Cart</Button>
+      </Form>
+
     </>
   );
 }
