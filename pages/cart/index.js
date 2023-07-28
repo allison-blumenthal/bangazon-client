@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
+import { Button } from 'react-bootstrap';
 import { useAuth } from '../../utils/context/authContext';
 import { getOpenOrderByUserId } from '../../utils/data/orderData';
 import { getOrderProductsByOrderId } from '../../utils/data/orderProductData';
@@ -58,6 +60,9 @@ export default function ViewCart() {
       </div>
       <br />
       <h1>Order total: ${total}</h1>
+      <Link passHref href={`/checkout/${openOrder.id}`}>
+        <Button type="button" className="m-2">View</Button>
+      </Link>
     </>
   );
 }
