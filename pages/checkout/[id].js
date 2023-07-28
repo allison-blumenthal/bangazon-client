@@ -27,7 +27,7 @@ const Checkout = () => {
     <>
       <br />
       <h1>Checkout</h1>
-      <CartCheckoutForm cartObj={orderDetails} />
+      <CartCheckoutForm orderObj={orderDetails} />
     </>
   );
 };

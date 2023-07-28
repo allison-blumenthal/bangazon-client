@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { useAuth } from '../../utils/context/authContext';
-import { getOpenOrderByUserId } from '../../utils/data/orderData';
+import { getOpenOrderByUserId, updateOrder } from '../../utils/data/orderData';
 import { getOrderProductsByOrderId } from '../../utils/data/orderProductData';
 import CartItemCard from '../../components/cart/CartItemCard';
 
@@ -35,6 +35,20 @@ export default function ViewCart() {
     getOpenOrder();
     if (openOrder.id) {
       getCartProducts();
+
+      const total = cartProducts.reduce((accumulator, object) => accumulator + parseFloat(object.product_id.price), 0);
+
+      const payload = {
+        id: openOrder.id,
+        customerId: openOrder.customer_id.id,
+        paymentType: openOrder.payment_type.id,
+        total: Number(total),
+        needsShipping: openOrder.needs_shipping,
+        isCompleted: openOrder.is_completed,
+        datePlaced: openOrder.date_placed,
+      };
+
+      updateOrder(payload);
     }
   }, [user.id, openOrder.id]);
 
