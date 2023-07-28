@@ -33,11 +33,10 @@ export default function ViewCart() {
 
   useEffect(() => {
     getOpenOrder();
-  }, [user.id]);
-
-  useEffect(() => {
-    getCartProducts();
-  }, [openOrder]);
+    if (openOrder.id) {
+      getCartProducts();
+    }
+  }, [user.id, openOrder.id]);
 
   const total = cartProducts.reduce((accumulator, object) => accumulator + parseFloat(object.product_id.price), 0);
 
@@ -61,7 +60,7 @@ export default function ViewCart() {
       <br />
       <h1>Order total: ${total}</h1>
       <Link passHref href={`/checkout/${openOrder.id}`}>
-        <Button type="button" className="m-2">View</Button>
+        <Button type="button" className="m-2">Checkout</Button>
       </Link>
     </>
   );

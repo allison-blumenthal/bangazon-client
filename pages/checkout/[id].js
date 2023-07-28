@@ -25,6 +25,8 @@ const Checkout = () => {
 
   return (
     <>
+      <br />
+      <h1>Checkout</h1>
       <CartCheckoutForm cartObj={orderDetails} />
     </>
   );
