@@ -3,10 +3,12 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import Button, { Form } from 'react-bootstrap';
 import { updateOrder } from '../../utils/data/orderData';
-import { getPaymentTypes}
+import { getPaymentTypes } from '../../utils/data/paymentTypeData';
 
 function CartCheckoutForm({ orderObj }) {
   const [currentOrder, setCurrentOrder] = useState({});
+  const [paymentTypes, setPaymentTypes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const getTodaysDate = () => {
@@ -24,7 +26,7 @@ function CartCheckoutForm({ orderObj }) {
   const todayDate = getTodaysDate();
 
   useEffect(() => {
-    getPaymentTypes
+    getPaymentTypes().then(setPaymentTypes);
     if (orderObj.id) {
       setCurrentOrder({
         id: orderObj.id,
@@ -38,8 +40,18 @@ function CartCheckoutForm({ orderObj }) {
     }
   }, [orderObj]);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCurrentOrder((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    // set loading state to true while form is being submitted
+    setIsLoading(true);
 
     const updatedOrder = {
       id: orderObj.id,
@@ -50,7 +62,11 @@ function CartCheckoutForm({ orderObj }) {
       isCompleted: true,
       datePlaced: todayDate,
     };
-    updateOrder(updatedOrder).then(() => router.push('/confirmation'));
+    updateOrder(updatedOrder).then(() => {
+      // set loading state back to false after form has been submitted
+      setIsLoading(false);
+      router.push('/confirmation');
+    });
   };
 
   return (
@@ -64,16 +80,29 @@ function CartCheckoutForm({ orderObj }) {
           required
         >
           <option value="">Select a Payment Type</option>
-          {paymentTypes.map((paymentType) => {
+          {paymentTypes.map((paymentType) => (
             <option
-              key={payment_type.id}
-              value={payment_type.id}
+              key={paymentType.id}
+              value={paymentType.id}
             >
-              {payment_type.label}
+              {paymentType.label}
             </option>
-          })}
+          ))}
         </Form.Select>
-        <Button variant="primary" type="submit">Place Order</Button>
+        <Form.Select
+          name="needsShipping"
+          onChange={handleChange}
+          className="mb-3"
+          value={currentOrder.needsShipping}
+          required
+        >
+          <option value="">Shipping or Local Pickup?</option>
+          <option selected={!currentOrder.needsShipping}>Please ship my order to me.</option>
+          <option selected={currentOrder.needsShipping}>I will pick up my order locally.</option>
+        </Form.Select>
+        <Button variant="primary" type="submit" disabled={isLoading}>
+          {isLoading ? 'Placing Order...' : 'Place Order'}
+        </Button>
       </Form>
 
     </>
