@@ -32,7 +32,7 @@ export default function NavBar() {
             <Link passHref href="/categories">
               <Nav.Link>Product Categories</Nav.Link>
             </Link>
-            <Link passHref href="cart">
+            <Link passHref href="/cart">
               <Nav.Link>Cart</Nav.Link>
             </Link>
 
