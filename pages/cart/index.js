@@ -39,7 +39,7 @@ export default function ViewCart() {
   }, [user.id, openOrder.id]);
 
   useEffect(() => {
-    const total = cartProducts.reduce((accumulator, object) => accumulator + parseFloat(object.product_id.price), 0);
+    const total = cartProducts.reduce((accumulator, object) => accumulator + parseFloat(object.product_id.price).toFixed(2), 0);
 
     if (openOrder.id) {
       const payload = {

@@ -69,12 +69,11 @@ function OrderProductForm({ orderProductObj, productObj }) {
   };
 
   return (
-    <>
+    <div className="top-centered">
       <Form onSubmit={handleSubmit}>
-        <Button variant="primary" type="submit">Add to Cart</Button>
+        <Button size="lg" variant="warning" type="submit">Add Item to Cart?</Button>
       </Form>
-
-    </>
+    </div>
   );
 }
 
