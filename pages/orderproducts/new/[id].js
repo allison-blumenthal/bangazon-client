@@ -21,7 +21,6 @@ const NewOrderProduct = () => {
 
   useEffect(() => {
     getProductDetails();
-    // console.warn('product details', productDetails);
   }, []);
 
   return (

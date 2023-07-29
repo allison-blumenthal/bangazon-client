@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
+import { Button } from 'react-bootstrap';
 import { useAuth } from '../../utils/context/authContext';
-import { getOpenOrderByUserId } from '../../utils/data/orderData';
+import { getOpenOrderByUserId, updateOrder } from '../../utils/data/orderData';
 import { getOrderProductsByOrderId } from '../../utils/data/orderProductData';
 import CartItemCard from '../../components/cart/CartItemCard';
 
@@ -31,11 +33,27 @@ export default function ViewCart() {
 
   useEffect(() => {
     getOpenOrder();
-  }, [user.id]);
+    if (openOrder.id) {
+      getCartProducts();
+    }
+  }, [user.id, openOrder.id]);
 
   useEffect(() => {
-    getCartProducts();
-  }, [openOrder]);
+    const total = cartProducts.reduce((accumulator, object) => accumulator + parseFloat(object.product_id.price), 0);
+
+    if (openOrder.id) {
+      const payload = {
+        id: openOrder.id,
+        customerId: openOrder.customer_id?.id,
+        paymentType: openOrder.payment_type?.id,
+        total: Number(total),
+        needsShipping: openOrder.needs_shipping,
+        isCompleted: openOrder.is_completed,
+        datePlaced: openOrder.date_placed,
+      };
+      updateOrder(payload);
+    }
+  }, [cartProducts]);
 
   const total = cartProducts.reduce((accumulator, object) => accumulator + parseFloat(object.product_id.price), 0);
 
@@ -58,6 +76,9 @@ export default function ViewCart() {
       </div>
       <br />
       <h1>Order total: ${total}</h1>
+      <Link passHref href={`/checkout/${openOrder.id}`}>
+        <Button type="button" className="m-2">Checkout</Button>
+      </Link>
     </>
   );
 }
