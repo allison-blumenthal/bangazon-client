@@ -72,6 +72,18 @@ const getProductsBySellerId = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getProductsByCategoryId = (id) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/products?category_id=${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
-  getProducts, getSingleProduct, createProduct, updateProduct, deleteProduct, getProductsBySellerId,
+  getProducts, getSingleProduct, createProduct, updateProduct, deleteProduct, getProductsBySellerId, getProductsByCategoryId,
 };
