@@ -10,7 +10,7 @@ function OrderProductCard({ orderProductObj, onUpdate }) {
     <Card className="text-center orderProduct-card" style={{ width: '18rem', margin: '10px' }}>
       <Card.Header>{orderProductObj.product_id.name}</Card.Header>
       <Card.Body>
-        <Card.Img src={orderProductObj.product_id.product_image_url} alt="product" />
+        <Card.Img className="img" src={orderProductObj.product_id.product_image_url} alt="product" />
         <h2>Price: ${orderProductObj.product_id.price}</h2>
         <h3>Quantity: {orderProductObj.quantity}</h3>
       </Card.Body>
