@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
-import { updateOrder } from '../../utils/data/orderData';
+import { createOrder, updateOrder } from '../../utils/data/orderData';
 import { getPaymentTypes } from '../../utils/data/paymentTypeData';
+import { useAuth } from '../../utils/context/authContext';
 
 export default function CartCheckoutForm({ orderObj }) {
   const [currentOrder, setCurrentOrder] = useState({});
   const [paymentTypes, setPaymentTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { user } = useAuth();
 
   const getTodaysDate = () => {
     const today = new Date();
@@ -42,8 +44,6 @@ export default function CartCheckoutForm({ orderObj }) {
       });
     }
   }, [orderObj]);
-
-  console.warn('current order: ', currentOrder);
 
   const handlePaymentChange = (e) => {
     const { name, value } = e.target;
@@ -81,6 +81,17 @@ export default function CartCheckoutForm({ orderObj }) {
     updateOrder(updatedOrder).then(() => {
       // set loading state back to false after form has been submitted
       setIsLoading(false);
+
+      const payload = {
+        customerId: user.id,
+        paymentType: 1,
+        total: 0,
+        needsShipping: true,
+        isCompleted: false,
+        datePlaced: todayDate,
+      };
+
+      createOrder(payload);
       router.push('/confirmation');
     });
   };
