@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Button } from 'react-bootstrap';
 import Link from 'next/link';
-import { getSingleProduct } from '../../utils/data/productData';
+import { getSingleProduct, deleteProduct } from '../../utils/data/productData';
 import { useAuth } from '../../utils/context/authContext';
 
 export default function ViewProduct() {
@@ -32,7 +32,7 @@ export default function ViewProduct() {
     router.push(`/orderproducts/new/${id}`);
   };
 
-  const deleteProduct = () => {
+  const deleteThisProduct = () => {
     if (window.confirm(`Remove ${productDetails.name}?`)) {
       deleteProduct(productDetails.id).then(() => router.push('/'));
     }
@@ -61,14 +61,14 @@ export default function ViewProduct() {
           <Button variant="primary" onClick={handleClick}>
             Add to Cart
           </Button>
-          {productDetails.seller_id === user.id
-            ? (
-              <>
-                <Button variant="warning" onClick={router.push(`/products/edit/${id}`)}>Edit Product</Button>
-                <Button variant="danger" onClick={deleteProduct}>Delete Product</Button>
-              </>
-            )
-            : ''}
+          {productDetails.seller_id?.id === user.id ? (
+            <>
+              <Link passHref href={`/products/edit/${id}`}>
+                <Button variant="warning" className="edit-btn">Edit Product</Button>
+              </Link>
+              <Button variant="danger" onClick={deleteThisProduct}>Delete Product</Button>
+            </>
+          ) : ''}
         </div>
       </div>
     </>
