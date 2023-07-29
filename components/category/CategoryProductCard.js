@@ -7,7 +7,7 @@ export default function CategoryProductCard({ categoryProductObj, onUpdate }) {
   return (
     <div>
       <Link passHref href={`/products/${categoryProductObj.id}`}>
-        <h4>{categoryProductObj.name}</h4>
+        <h4 className="category-product-name">{categoryProductObj.name}</h4>
       </Link>
     </div>
   );

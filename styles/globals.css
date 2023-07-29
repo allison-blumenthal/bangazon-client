@@ -73,3 +73,17 @@ body {
 .pd-seller:hover {
   color: green;
 }
+
+.top-centered {
+  position: fixed; /* or absolute */
+  top: 15%;
+  left: 50%;
+}
+
+.category-product-name {
+  color: navy;
+}
+
+.category-product-name:hover {
+  color: hotpink;
+}
