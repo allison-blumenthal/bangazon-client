@@ -35,22 +35,25 @@ export default function ViewCart() {
     getOpenOrder();
     if (openOrder.id) {
       getCartProducts();
+    }
+  }, [user.id, openOrder.id]);
 
-      const total = cartProducts.reduce((accumulator, object) => accumulator + parseFloat(object.product_id.price), 0);
+  useEffect(() => {
+    const total = cartProducts.reduce((accumulator, object) => accumulator + parseFloat(object.product_id.price), 0);
 
+    if (openOrder.id) {
       const payload = {
         id: openOrder.id,
-        customerId: openOrder.customer_id.id,
-        paymentType: openOrder.payment_type.id,
+        customerId: openOrder.customer_id?.id,
+        paymentType: openOrder.payment_type?.id,
         total: Number(total),
         needsShipping: openOrder.needs_shipping,
         isCompleted: openOrder.is_completed,
         datePlaced: openOrder.date_placed,
       };
-
       updateOrder(payload);
     }
-  }, [user.id, openOrder.id]);
+  }, [cartProducts]);
 
   const total = cartProducts.reduce((accumulator, object) => accumulator + parseFloat(object.product_id.price), 0);
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import Button, { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { updateOrder } from '../../utils/data/orderData';
 import { getPaymentTypes } from '../../utils/data/paymentTypeData';
 
-function CartCheckoutForm({ orderObj }) {
+export default function CartCheckoutForm({ orderObj }) {
   const [currentOrder, setCurrentOrder] = useState({});
   const [paymentTypes, setPaymentTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,21 +30,25 @@ function CartCheckoutForm({ orderObj }) {
     if (orderObj.id) {
       setCurrentOrder({
         id: orderObj.id,
-        customerId: orderObj.customer_id,
-        paymentType: orderObj.payment_type,
+        customerId: orderObj.customer_id.id,
+        paymentType: '',
         total: orderObj.total,
-        needsShipping: orderObj.needs_shipping,
-        isCompleted: orderObj.is_completed,
-        datePlaced: orderObj.date_placed,
+        needsShipping: '',
+        isCompleted: false,
+        datePlaced: '',
       });
+
+      console.warn(orderObj);
     }
   }, [orderObj]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const newValue = value === 'true';
+
     setCurrentOrder((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: newValue,
     }));
   };
 
@@ -55,7 +59,7 @@ function CartCheckoutForm({ orderObj }) {
 
     const updatedOrder = {
       id: orderObj.id,
-      customerId: orderObj.customer_id,
+      customerId: orderObj.customer_id.id,
       paymentType: currentOrder.paymentType,
       total: orderObj.total,
       needsShipping: currentOrder.needsShipping,
@@ -93,12 +97,12 @@ function CartCheckoutForm({ orderObj }) {
           name="needsShipping"
           onChange={handleChange}
           className="mb-3"
-          value={currentOrder.needsShipping}
+          value={currentOrder.needsShipping?.toString()}
           required
         >
           <option value="">Shipping or Local Pickup?</option>
-          <option selected={!currentOrder.needsShipping}>Please ship my order to me.</option>
-          <option selected={currentOrder.needsShipping}>I will pick up my order locally.</option>
+          <option value="true">Please ship my order to me.</option>
+          <option value="false">I will pick up my order locally.</option>
         </Form.Select>
         <Button variant="primary" type="submit" disabled={isLoading}>
           {isLoading ? 'Placing Order...' : 'Place Order'}
@@ -112,16 +116,16 @@ function CartCheckoutForm({ orderObj }) {
 CartCheckoutForm.propTypes = {
   orderObj: PropTypes.shape({
     id: PropTypes.number,
-    customer_id: PropTypes.number,
+    customer_id: PropTypes.shape({
+      id: PropTypes.number,
+    }),
     payment_type: PropTypes.shape({
       id: PropTypes.number,
       label: PropTypes.string,
     }),
-    total: PropTypes.number,
+    total: PropTypes.string,
     needs_shipping: PropTypes.bool,
     is_completed: PropTypes.bool,
-    date_placed: PropTypes.instanceOf(Date),
+    date_placed: PropTypes.string,
   }).isRequired,
 };
-
-export default CartCheckoutForm;
