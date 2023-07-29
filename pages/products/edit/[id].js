@@ -8,15 +8,26 @@ const EditProduct = () => {
   const router = useRouter();
   const { id } = router.query;
 
+  const getProductDetails = async () => {
+    try {
+      const details = await getSingleProduct(id);
+      setEditProduct(details);
+    } catch (error) {
+      console.error('Error fetching product details: ', error);
+    }
+  };
+
   useEffect(() => {
-    getSingleProduct(id).then(setEditProduct);
+    getProductDetails();
+
+    console.warn('edit product: ', editProduct);
   }, [id]);
 
   return (
     <div>
       <br />
       <h1>Edit Product</h1>
-      <ProductForm postObj={editProduct} />
+      <ProductForm productObj={editProduct} />
     </div>
   );
 };
