@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getCategories } from '../utils/data/categoryData';
 import CategoryCard from '../components/category/CategoryCard';
 
@@ -10,6 +10,10 @@ export default function ViewCategories() {
       setCategories(data);
     });
   };
+
+  useEffect(() => {
+    getCategoryList();
+  }, []);
 
   return (
     <div>

@@ -7,9 +7,9 @@ function CategoryCard({ categoryObj }) {
     <Card className="text-center category-card" style={{ width: '18rem', margin: '10px' }}>
       <Card.Header>{categoryObj.label}</Card.Header>
       <Card.Body>
-        <h2>Product 1</h2>
-        <h2>Product 2</h2>
-        <h2>Product 3</h2>
+        <h6>Product 1</h6>
+        <h6>Product 2</h6>
+        <h6>Product 3</h6>
       </Card.Body>
     </Card>
   );
