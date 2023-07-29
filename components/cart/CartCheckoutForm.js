@@ -26,23 +26,35 @@ export default function CartCheckoutForm({ orderObj }) {
   const todayDate = getTodaysDate();
 
   useEffect(() => {
-    getPaymentTypes().then(setPaymentTypes);
+    getPaymentTypes().then((data) => {
+      setPaymentTypes(data);
+    });
+
     if (orderObj.id) {
       setCurrentOrder({
         id: orderObj.id,
         customerId: orderObj.customer_id.id,
-        paymentType: '',
+        paymentType: orderObj.payment_type.id,
         total: orderObj.total,
-        needsShipping: '',
-        isCompleted: false,
-        datePlaced: '',
+        needsShipping: orderObj.needs_shipping,
+        isCompleted: orderObj.is_completed,
+        datePlaced: orderObj.date_placed,
       });
-
-      console.warn(orderObj);
     }
   }, [orderObj]);
 
-  const handleChange = (e) => {
+  console.warn('current order: ', currentOrder);
+
+  const handlePaymentChange = (e) => {
+    const { name, value } = e.target;
+
+    setCurrentOrder((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleShippingChange = (e) => {
     const { name, value } = e.target;
     const newValue = value === 'true';
 
@@ -60,7 +72,7 @@ export default function CartCheckoutForm({ orderObj }) {
     const updatedOrder = {
       id: orderObj.id,
       customerId: orderObj.customer_id.id,
-      paymentType: currentOrder.paymentType,
+      paymentType: Number(currentOrder.paymentType),
       total: orderObj.total,
       needsShipping: currentOrder.needsShipping,
       isCompleted: true,
@@ -78,12 +90,11 @@ export default function CartCheckoutForm({ orderObj }) {
       <Form onSubmit={handleSubmit}>
         <Form.Select
           name="paymentType"
-          onChange={handleChange}
+          onChange={handlePaymentChange}
           className="mb-3"
           value={currentOrder.paymentType}
           required
         >
-          <option value="">Select a Payment Type</option>
           {paymentTypes.map((paymentType) => (
             <option
               key={paymentType.id}
@@ -95,12 +106,11 @@ export default function CartCheckoutForm({ orderObj }) {
         </Form.Select>
         <Form.Select
           name="needsShipping"
-          onChange={handleChange}
+          onChange={handleShippingChange}
           className="mb-3"
           value={currentOrder.needsShipping?.toString()}
           required
         >
-          <option value="">Shipping or Local Pickup?</option>
           <option value="true">Please ship my order to me.</option>
           <option value="false">I will pick up my order locally.</option>
         </Form.Select>
