@@ -6,10 +6,12 @@ import { useRouter } from 'next/router';
 import { Button } from 'react-bootstrap';
 import Link from 'next/link';
 import { getSingleProduct } from '../../utils/data/productData';
+import { useAuth } from '../../utils/context/authContext';
 
 export default function ViewProduct() {
   const [productDetails, setProductDetails] = useState({});
   const router = useRouter();
+  const { user } = useAuth();
 
   const { id } = router.query;
 
@@ -28,6 +30,12 @@ export default function ViewProduct() {
 
   const handleClick = () => {
     router.push(`/orderproducts/new/${id}`);
+  };
+
+  const deleteProduct = () => {
+    if (window.confirm(`Remove ${productDetails.name}?`)) {
+      deleteProduct(productDetails.id).then(() => router.push('/'));
+    }
   };
 
   return (
@@ -53,6 +61,14 @@ export default function ViewProduct() {
           <Button variant="primary" onClick={handleClick}>
             Add to Cart
           </Button>
+          {productDetails.seller_id === user.id
+            ? (
+              <>
+                <Button variant="warning" onClick={router.push(`/products/edit/${id}`)}>Edit Product</Button>
+                <Button variant="danger" onClick={deleteProduct}>Delete Product</Button>
+              </>
+            )
+            : ''}
         </div>
       </div>
     </>
